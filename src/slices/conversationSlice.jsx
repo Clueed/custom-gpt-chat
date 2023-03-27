@@ -35,13 +35,7 @@ export const conversationSlice = createSlice({
   initialState,
   reducers: {
     add: (state, action) => {
-      if (state.messages[action.payload.uuid]) {
-        state.messages[action.payload.uuid] = action.payload.map(
-          ({ uuid, ...rest }) => ({ ...rest })
-        )
-      } else {
-        state.messages[crypto.randomUUID()] = action.payload
-      }
+      state.messages[crypto.randomUUID()] = action.payload
     },
     clearExcept: (state, action) => {
       for (let key in state.messages) {
@@ -52,6 +46,9 @@ export const conversationSlice = createSlice({
     },
     remove: (state, action) => {
       delete state.messages[action.payload.uuid]
+    },
+    edit: (state, action) => {
+      state.messages[action.payload.uuid] = action.payload.message
     }
   },
   extraReducers: builder => {
@@ -73,6 +70,6 @@ export const conversationSlice = createSlice({
   }
 })
 
-export const { add, clearExcept, remove } = conversationSlice.actions
+export const { add, clearExcept, remove, edit } = conversationSlice.actions
 
 export default conversationSlice.reducer

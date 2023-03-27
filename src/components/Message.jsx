@@ -4,8 +4,10 @@ import {
   SparklesIcon,
   UserIcon
 } from '@heroicons/react/20/solid'
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { clearExcept, remove } from '../slices/conversationSlice'
+import { MessageTextField } from './MessageTextField'
 
 export default function Message ({ role, content, loading, uuid }) {
   const dispatch = useDispatch()
@@ -16,6 +18,12 @@ export default function Message ({ role, content, loading, uuid }) {
     } else {
       dispatch(remove({ uuid: uuid }))
     }
+  }
+
+  const [editable, setEditable] = useState(false)
+
+  function handleEditButton () {
+    setEditable(true)
   }
 
   return (
@@ -34,20 +42,27 @@ export default function Message ({ role, content, loading, uuid }) {
         )}
         {role === 'user' && <UserIcon className='w-6 h-6' />}
       </div>
-      {content && (
-        <div
-          style={{ hyphens: 'auto' }}
-          className='inline-block break-words whitespace-pre-line'
-        >
-          {content}
-        </div>
-      )}
-
+      <MessageTextField
+        content={content}
+        editable={editable}
+        setEditable={setEditable}
+        uuid={uuid}
+        role={role}
+      />
       <label className='w-6 h-6'>
         <span className='sr-only'>Clear conversation</span>
         <button
           onClick={handleRemoveButton}
           className='hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600 inline-flex justify-center text-orange-600 rounded-full cursor-pointer'
+        >
+          <ArrowRightCircleIcon className='w-6 h-6' />
+        </button>
+      </label>{' '}
+      <label className='w-6 h-6'>
+        <span className='sr-only'>Clear conversation</span>
+        <button
+          onClick={handleEditButton}
+          className='hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600 inline-flex justify-center text-lime-600 rounded-full cursor-pointer'
         >
           <ArrowRightCircleIcon className='w-6 h-6' />
         </button>
