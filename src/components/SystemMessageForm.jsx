@@ -22,7 +22,7 @@ export default function SystemMessageForm (props) {
   }
 
   return (
-    <div className='w-full max-w-lg'>
+    <div className='w-full sm:max-w-lg max-w-[90vw]'>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label className='block mb-2 text-sm text-gray-900 font- dark:text-white'>
           System prompt
