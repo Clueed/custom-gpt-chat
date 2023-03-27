@@ -7,7 +7,9 @@ import {
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { clearExcept, remove } from '../slices/conversationSlice'
-import { MessageTextField } from './MessageTextField'
+import { useForm } from 'react-hook-form'
+import ReactTextareaAutosize from 'react-textarea-autosize'
+import { edit } from '../slices/conversationSlice'
 
 export default function Message ({ role, content, loading, uuid }) {
   const dispatch = useDispatch()
@@ -24,6 +26,14 @@ export default function Message ({ role, content, loading, uuid }) {
 
   function handleEditButton () {
     setEditable(true)
+  }
+  const { register, handleSubmit } = useForm()
+
+  const onSubmit = data => {
+    dispatch(
+      edit({ uuid: uuid, message: { content: data.content, role: role } })
+    )
+    setEditable(false)
   }
 
   return (
@@ -42,13 +52,23 @@ export default function Message ({ role, content, loading, uuid }) {
         )}
         {role === 'user' && <UserIcon className='w-6 h-6' />}
       </div>
-      <MessageTextField
-        content={content}
-        editable={editable}
-        setEditable={setEditable}
-        uuid={uuid}
-        role={role}
-      />
+      {editable ? (
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <ReactTextareaAutosize
+            className=''
+            {...register('content')}
+            defaultValue={content}
+          />
+          <button type='submit'>Hey</button>
+        </form>
+      ) : (
+        <div
+          style={{ hyphens: 'auto' }}
+          className='inline-block break-words whitespace-pre-line'
+        >
+          {content}
+        </div>
+      )}
       <label className='w-6 h-6'>
         <span className='sr-only'>Clear conversation</span>
         <button
