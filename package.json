@@ -5,6 +5,7 @@
   "dependencies": {
     "@heroicons/react": "^2.0.16",
     "@reduxjs/toolkit": "^1.9.3",
+    "next": "^13.2.4",
     "openai": "^3.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -14,10 +15,9 @@
     "react-textarea-autosize": "^8.4.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
   "eslintConfig": {
     "extends": [
@@ -39,8 +39,10 @@
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.3",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.21",
     "prettier-standard": "^16.4.1",
-    "tailwindcss": "^3.2.7",
-    "standard": "^17.0.0"
+    "standard": "^17.0.0",
+    "tailwindcss": "^3.2.7"
   }
 }
