@@ -171,7 +171,7 @@ function bpe (token) {
   return word
 }
 
-function encode (text) {
+export function encode (text) {
   let bpe_tokens = []
   const matches = Array.from(text.matchAll(pat)).map(x => x[0])
   for (let token of matches) {
@@ -189,13 +189,9 @@ function encode (text) {
   return bpe_tokens
 }
 
-function decode (tokens) {
+export function decode (tokens) {
   let text = tokens.map(x => decoder[x]).join('')
   text = decodeStr(text.split('').map(x => byte_decoder[x]))
   return text
 }
 
-module.exports = {
-  encode,
-  decode
-}
