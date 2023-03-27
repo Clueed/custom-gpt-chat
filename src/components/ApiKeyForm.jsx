@@ -1,54 +1,32 @@
 import { useEffect } from 'react'
-import { set, useForm } from 'react-hook-form'
-import { getModelList } from './OpenAIAPI'
-import { useDispatch } from 'react-redux'
-import { setApiKey, setModelList, setModel } from '../slices/openAIConfigSlice'
+import { useForm } from 'react-hook-form'
+import { useDispatch, useSelector } from 'react-redux'
+import { setApiKey, getModelList } from '../slices/openAIConfigSlice'
+import Spinner from './Spinner'
 
 export default function ApiKeyForm () {
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     setError
   } = useForm({ mode: 'onChange' })
 
   const dispatch = useDispatch()
 
   const onSubmit = async data => {
-    try {
-      const response = await getModelList(data.apiKey)
-      saveModels(response.data.data)
-    } catch (err) {
-      if (err.response.status === 401) {
-        setError('apiKey', {
-          type: err.response.status,
-          message: 'Invalid API Key'
-        })
-        return false
-      } else {
-        throw new Error(err)
-      }
-    }
-
-    console.info('Api connected successfully')
-
     dispatch(setApiKey(data.apiKey))
 
-    return true
-  }
-
-  function saveModels (models) {
-    models.sort((a, b) => b.created - a.created)
-
-    dispatch(setModelList(models))
-    dispatch(setModel(models[0].id))
+    dispatch(getModelList({ setError, inputName: 'apiKey' }))
   }
 
   useEffect(() => {
     const subscription = watch(handleSubmit(onSubmit))
     return () => subscription.unsubscribe()
   }, [handleSubmit, watch])
+
+  const loading = useSelector(state => state.openAIConfig.loading)
 
   return (
     <div className='w-full max-w-lg'>
@@ -57,8 +35,8 @@ export default function ApiKeyForm () {
           OpenAI API Key
           <input
             type='text'
-            disabled={isSubmitting}
-            className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full my-2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+            disabled={loading}
+            className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full my-2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 disabled:bg-gray-100 disabled:text-gray-900'
             placeholder='ab-yriMQM2Lw5bMYqBo9Imgy8LMQxSloPyeBggqqXvkGRUF1CUq'
             invalid={errors.apiKey ? 'true' : 'false'}
             aria-invalid={errors.apiKey ? 'true' : 'false'}

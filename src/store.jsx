@@ -6,5 +6,9 @@ export const store = configureStore({
   reducer: {
     conversation: conversationReducer,
     openAIConfig: openAIConfigReducer
-  }
+  },
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: false
+    })
 })

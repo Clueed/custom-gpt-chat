@@ -13,22 +13,16 @@ export const getResponse = createAsyncThunk(
 
     const apiKey = state.openAIConfig.apiKey
     const model = state.openAIConfig.model
-    //    const messages = useSelector(state => state.conversation.messages)
+
     const messages = state.conversation.messages
-
     const messagesUUIDs = Object.keys(messages)
-
     const messagesList = messagesUUIDs.map(uuid => messages[uuid])
-
     const messagesContentList = messagesList.map(
       ({ content, role, ...rest }) => ({ content, role })
     )
 
-    // console.log(apiKey, model, messagesContentList)
-
     const res = await queryChatGPT(apiKey, model, messagesContentList).then(
       data => {
-        // console.log(data)
         return JSON.stringify(data)
       }
     )
@@ -69,7 +63,6 @@ export const conversationSlice = createSlice({
   }
 })
 
-// Action creators are generated for each case reducer function
 export const { add } = conversationSlice.actions
 
 export default conversationSlice.reducer
