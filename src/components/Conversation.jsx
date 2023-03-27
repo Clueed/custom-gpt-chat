@@ -24,6 +24,7 @@ export default function Conversation () {
           {messagesUUIDs.map(uuid => (
             <Message
               key={uuid}
+              uuid={uuid}
               content={messages[uuid].content}
               role={messages[uuid].role}
             />

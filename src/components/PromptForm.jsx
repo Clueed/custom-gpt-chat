@@ -28,7 +28,7 @@ export default function PromptForm (props) {
         uuid: promptUUID
       })
     )
-    dispatch(getResponse())
+    //dispatch(getResponse())
   }
 
   const newPrompt = watch('prompt', '')
@@ -60,7 +60,6 @@ export default function PromptForm (props) {
                 className='hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 inline-flex justify-center text-gray-500 rounded-lg cursor-pointer'
               >
                 <PhotoIcon className='w-7 h-7' />
-                <span className='sr-only'>Upload image</span>
               </button>
             </label>
             <label className='block p-2.5 w-full'>
@@ -80,7 +79,6 @@ export default function PromptForm (props) {
                 className='hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600 inline-flex justify-center text-blue-600 rounded-full cursor-pointer'
               >
                 <ArrowRightCircleIcon className='w-8 h-8' />
-                <span className='sr-only'>Send message</span>
               </button>
             </label>
           </div>
