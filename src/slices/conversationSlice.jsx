@@ -13,22 +13,16 @@ export const getResponse = createAsyncThunk(
 
     const apiKey = state.openAIConfig.apiKey
     const model = state.openAIConfig.model
-    //    const messages = useSelector(state => state.conversation.messages)
+
     const messages = state.conversation.messages
-
     const messagesUUIDs = Object.keys(messages)
-
-    const messagesList = messagesUUIDs.map(uuid => messages[uuid])
-
+    const messagesList = messagesUUIDs.map((uuid) => messages[uuid])
     const messagesContentList = messagesList.map(
       ({ content, role, ...rest }) => ({ content, role })
     )
 
-    // console.log(apiKey, model, messagesContentList)
-
     const res = await queryChatGPT(apiKey, model, messagesContentList).then(
-      data => {
-        // console.log(data)
+      (data) => {
         return JSON.stringify(data)
       }
     )
@@ -41,16 +35,23 @@ export const conversationSlice = createSlice({
   initialState,
   reducers: {
     add: (state, action) => {
-      if (state.messages[action.payload.uuid]) {
-        state.messages[action.payload.uuid] = action.payload.map(
-          ({ uuid, ...rest }) => ({ ...rest })
-        )
-      } else {
-        state.messages[crypto.randomUUID()] = action.payload
+      state.messages[crypto.randomUUID()] = action.payload
+    },
+    clearExcept: (state, action) => {
+      for (const key in state.messages) {
+        if (key !== action.payload.uuid) {
+          delete state.messages[key]
+        }
       }
+    },
+    remove: (state, action) => {
+      delete state.messages[action.payload.uuid]
+    },
+    edit: (state, action) => {
+      state.messages[action.payload.uuid] = action.payload.message
     }
   },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
       .addCase(getResponse.fulfilled, (state, { payload }) => {
         const parsedPayload = JSON.parse(payload)
@@ -60,16 +61,15 @@ export const conversationSlice = createSlice({
 
         state.loading = false
       })
-      .addCase(getResponse.rejected, state => {
+      .addCase(getResponse.rejected, (state) => {
         state.loading = false
       })
-      .addCase(getResponse.pending, state => {
+      .addCase(getResponse.pending, (state) => {
         state.loading = true
       })
   }
 })
 
-// Action creators are generated for each case reducer function
-export const { add } = conversationSlice.actions
+export const { add, clearExcept, remove, edit } = conversationSlice.actions
 
 export default conversationSlice.reducer
