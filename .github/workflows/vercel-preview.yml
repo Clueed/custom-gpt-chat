@@ -2,10 +2,11 @@ name: Vercel Preview Deployment
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-on: [pull_request, issue_comment]
+on: 
+  pull_request
 jobs:
   Deploy-Preview:
-    if: contains(github.event.pull_request.labels.*.name, 'preview')
+    if: contains(github.event.pull_request.labels.*.name, 'preview') || github.event.label.name == 'preview'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
