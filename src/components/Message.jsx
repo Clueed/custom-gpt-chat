@@ -47,7 +47,7 @@ export default function Message ({ role, content, uuid }) {
     <div
       className={
         ' w-full place-items-start rounded-lg text-stone-900 bg-gray-50 dark:bg-gray-700' +
-        (role === 'user' ? ' opacity-80' : '')
+        (role === 'user' && !editable ? ' opacity-80' : '')
       }
     >
       <MessageToolbar
