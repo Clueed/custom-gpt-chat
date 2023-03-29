@@ -1,9 +1,11 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import Message from './Message'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
 
 export default function Conversation () {
-  const convo = useSelector(state => state.conversation)
+  const convo = useSelector((state) => state.conversation)
   const messages = convo.messages
 
   const messagesUUIDs = Object.keys(messages)
@@ -17,11 +19,11 @@ export default function Conversation () {
   return (
     <>
       <div
-        id='chat-container'
-        className='w-full h-full max-w-4xl py-5 overflow-y-auto'
+        id="chat-container"
+        className="w-full h-full max-w-4xl py-5 overflow-y-auto"
       >
-        <div className='flex flex-col items-center flex-grow w-full h-auto px-10 gap-4'>
-          {messagesUUIDs.map(uuid => (
+        <div className="flex flex-col items-center flex-grow w-full h-auto gap-4 px-10">
+          {messagesUUIDs.map((uuid) => (
             <Message
               key={uuid}
               uuid={uuid}
@@ -30,7 +32,9 @@ export default function Conversation () {
             />
           ))}
           {convo.loading === true && (
-            <Message role='assistant' loading={convo.loading} />
+            <div className="flex items-center justify-center w-full my-5 text-green-200 align-middle animate-bounce">
+              <FontAwesomeIcon icon={solid('robot')} size="xl" />
+            </div>
           )}
         </div>
       </div>

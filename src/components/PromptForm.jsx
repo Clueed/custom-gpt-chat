@@ -22,14 +22,16 @@ export default function PromptForm (props) {
   const [promptUUID] = useState(crypto.randomUUID())
 
   const onSubmit = (data) => {
-    dispatch(
-      add({
-        role: 'user',
-        content: data.prompt,
-        uuid: promptUUID
-      })
-    )
-    // dispatch(getResponse())
+    if (data.prompt.trim() !== '') {
+      dispatch(
+        add({
+          role: 'user',
+          content: data.prompt,
+          uuid: promptUUID
+        })
+      )
+    }
+    dispatch(getResponse())
   }
 
   const newPrompt = watch('prompt', '')
@@ -73,7 +75,7 @@ export default function PromptForm (props) {
             <label className="block p-2.5 w-full">
               <span className="sr-only">Your message</span>
               <TextareaAutosize
-                {...register('prompt', { required: true })}
+                {...register('prompt')}
                 className="w-full m-0 text-sm text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Your message..."
                 maxRows={10}

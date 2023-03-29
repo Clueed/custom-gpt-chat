@@ -6,7 +6,7 @@ import ReactTextareaAutosize from 'react-textarea-autosize'
 
 import { MessageToolbar } from './MessageToolbar'
 
-export default function Message ({ role, content, loading, uuid }) {
+export default function Message ({ role, content, uuid }) {
   const dispatch = useDispatch()
 
   function handleRemoveButton () {
@@ -25,7 +25,13 @@ export default function Message ({ role, content, loading, uuid }) {
   const { register, handleSubmit } = useForm()
 
   const onSubmit = (data) => {
-    dispatch(edit({ uuid, message: { content: data.content, role } }))
+    const trimmedContent = data.content.trim()
+
+    if (trimmedContent !== '') {
+      dispatch(edit({ uuid, message: { content: trimmedContent, role } }))
+    } else {
+      dispatch(remove({ uuid }))
+    }
     setEditable(false)
   }
 

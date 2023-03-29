@@ -16,13 +16,13 @@ export const getResponse = createAsyncThunk(
 
     const messages = state.conversation.messages
     const messagesUUIDs = Object.keys(messages)
-    const messagesList = messagesUUIDs.map(uuid => messages[uuid])
+    const messagesList = messagesUUIDs.map((uuid) => messages[uuid])
     const messagesContentList = messagesList.map(
       ({ content, role, ...rest }) => ({ content, role })
     )
 
     const res = await queryChatGPT(apiKey, model, messagesContentList).then(
-      data => {
+      (data) => {
         return JSON.stringify(data)
       }
     )
@@ -51,7 +51,7 @@ export const conversationSlice = createSlice({
       state.messages[action.payload.uuid] = action.payload.message
     }
   },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
       .addCase(getResponse.fulfilled, (state, { payload }) => {
         const parsedPayload = JSON.parse(payload)
@@ -61,10 +61,10 @@ export const conversationSlice = createSlice({
 
         state.loading = false
       })
-      .addCase(getResponse.rejected, state => {
+      .addCase(getResponse.rejected, (state) => {
         state.loading = false
       })
-      .addCase(getResponse.pending, state => {
+      .addCase(getResponse.pending, (state) => {
         state.loading = true
       })
   }
