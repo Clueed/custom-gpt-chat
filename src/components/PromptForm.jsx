@@ -6,6 +6,8 @@ import TextareaAutosize from 'react-textarea-autosize'
 import { add, getResponse } from '../slices/conversationSlice'
 import CostAndToken from './CostAndToken/CostAndToken'
 import ModelSelector from './ModelSelector'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
 
 export default function PromptForm (props) {
   const {
@@ -78,7 +80,14 @@ export default function PromptForm (props) {
                 type='submit'
                 className='hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600 inline-flex justify-center text-blue-600 rounded-full cursor-pointer'
               >
-                <ArrowRightCircleIcon className='w-8 h-8' />
+                <span className='fa-layers fa-fw fa-lg '>
+                  <FontAwesomeIcon icon={solid('square')} transform='grow-16' />
+                  <FontAwesomeIcon
+                    icon={solid('paper-plane')}
+                    transform='shrink-3'
+                    inverse
+                  />
+                </span>
               </button>
             </label>
           </div>

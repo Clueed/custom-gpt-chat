@@ -1,6 +1,9 @@
+import { config } from '@fortawesome/fontawesome-svg-core'
+import '@fortawesome/fontawesome-svg-core/styles.css'
+import { Provider } from 'react-redux'
 import '../globals.css'
 import { store } from '../store'
-import { Provider } from 'react-redux'
+config.autoAddCss = false
 
 export default function App({ Component, pageProps }) {
   return (
