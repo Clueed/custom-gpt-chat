@@ -29,6 +29,14 @@ export default function Message ({ role, content, loading, uuid }) {
     setEditable(false)
   }
 
+  // Submit on enter key press in textfield
+  // New line on enter + shift
+  function handleKeyPress (e) {
+    if (e.which === 13 && e.shiftKey === false) {
+      handleSubmit(onSubmit)()
+    }
+  }
+
   return (
     <div
       className={
@@ -40,24 +48,25 @@ export default function Message ({ role, content, loading, uuid }) {
         role={role}
         handleRemoveButton={handleRemoveButton}
         handleEditButton={handleEditButton}
+        editable={editable}
       />
 
-      <div className="flex items-center gap-5 mx-5 my-5">
+      <div className="flex items-center gap-5 mx-5 my-5 text-gray-50">
         {editable
           ? (
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)} className="w-full">
             <ReactTextareaAutosize
-              className=""
+              className="w-full p-0 m-0 bg-transparent border-0 border-none outline-none appearance-none text-inherit focus:ring-0"
               {...register('content')}
               defaultValue={content}
+              onKeyPress={(e) => handleKeyPress(e)}
             />
-            <button type="submit">Hey</button>
           </form>
             )
           : (
           <div
             style={{ hyphens: 'auto' }}
-            className="inline-block break-words whitespace-pre-line text-gray-50"
+            className="inline-block break-words whitespace-pre-line "
           >
             {content}
           </div>
