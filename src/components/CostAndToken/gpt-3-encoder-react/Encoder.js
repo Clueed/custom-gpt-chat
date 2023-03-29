@@ -77,7 +77,7 @@ function get_pairs (word) {
   return pairs
 }
 
-const pat = /'s|'t|'re|'ve|'m|'ll|'d| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+/gu
+const pat = "/'s|'t|'re|'ve|'m|'ll|'d| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+/gu"
 
 const decoder = {}
 Object.keys(encoder).map(x => {
