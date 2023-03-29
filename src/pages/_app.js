@@ -5,7 +5,7 @@ import '../globals.css'
 import { store } from '../store'
 config.autoAddCss = false
 
-export default function App({ Component, pageProps }) {
+export default function App ({ Component, pageProps }) {
   return (
     <Provider store={store}>
       <Component {...pageProps} />

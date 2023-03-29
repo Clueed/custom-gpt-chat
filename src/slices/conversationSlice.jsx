@@ -38,7 +38,7 @@ export const conversationSlice = createSlice({
       state.messages[crypto.randomUUID()] = action.payload
     },
     clearExcept: (state, action) => {
-      for (let key in state.messages) {
+      for (const key in state.messages) {
         if (key !== action.payload.uuid) {
           delete state.messages[key]
         }

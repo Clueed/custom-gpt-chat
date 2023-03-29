@@ -194,4 +194,3 @@ export function decode (tokens) {
   text = decodeStr(text.split('').map(x => byte_decoder[x]))
   return text
 }
-
