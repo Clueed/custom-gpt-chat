@@ -1,0 +1,10 @@
+{
+  "extends": [
+    "prettier",
+    "standard",
+    "next/core-web-vitals"
+  ],
+  "plugins": [
+    "prettier"
+  ]
+}
